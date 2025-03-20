@@ -27,7 +27,20 @@ class DynamicProductBarcode(models.TransientModel):
             for prod_prod_id in product_product_ids:
                 print('prod_prod_id:',prod_prod_id)
                 product_product_id = prod_prod_id.id
-                eanbarcode = barcode.generate_ean(self, str(product_product_id))
-                self.env.cr.execute(
-                    "update product_product set barcode='" + str(eanbarcode) + "' where id='" + str(product_product_id) + "'")
+                if prod_prod_id.barcode == False or prod_prod_id == "":
+                    eanbarcode = barcode.generate_ean(self, str(product_product_id))
+                    self.env.cr.execute(
+                        "update product_product set barcode='" + str(eanbarcode) + "' where id='" + str(product_product_id) + "'")
+                else:
+                    print("Producto con codigo de barras YA GENERADO")
+                    return {
+                        'type': 'ir.actions.client',
+                        'tag': 'display_notification',
+                        'params': {
+                            'title': 'Aviso',
+                            'message': f'El producto "{prod_prod_id.name}" ya tiene un código de barras asignado.',
+                            'sticky': False,  # Si True, el mensaje no desaparece automáticamente
+                            'type': 'warning',  # Puede ser success, warning, danger, info
+                        }
+                    }
 
