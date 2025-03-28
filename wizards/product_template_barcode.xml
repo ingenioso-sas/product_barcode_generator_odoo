@@ -7,6 +7,8 @@
             <form string="Generacion de Codigo de barras">
                 <sheet>
                     <span class="o_form_label" style="font-weight:bold;">Realmente desea generar el codigo de barras para este producto?</span>
+                    <span class="o_form_label" style="font-weight:bold;">!Si el producto ya tiene codigo de barras, no se generara uno nuevo!</span>
+
                 </sheet>
                 <footer>
                     <button name="dynamic_product_barcode" string="Generate" type="object"
